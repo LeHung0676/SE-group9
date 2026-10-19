@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinh Độc Lập - Danh Mục Công Trình & Thuyết Minh Tự Động</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+  <!-- Header / Navigation -->
+  <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <i class="fa-solid fa-landmark text-2xl text-amber-400"></i>
+        <span class="text-xl font-bold tracking-wide text-amber-400 uppercase">Dinh Độc Lập</span>
+      </div>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="#danh-sach" class="hover:text-amber-400 transition">Các Công Trình</a>
+        <a href="#thuyet-minh" class="hover:text-amber-400 transition">Thuyết Minh Voice</a>
+        <a href="#ma-qr" class="hover:text-amber-400 transition">Mã QR Quét</a>
+      </nav>
+      <a href="#ma-qr" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs px-4 py-2 rounded-full transition flex items-center gap-2">
+        <i class="fa-solid fa-qrcode"></i> Quét QR Mobile
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-slate-900 text-white py-16 px-4 overflow-hidden">
+    <div class="absolute inset-0 opacity-25 bg-cover bg-center" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Independence_Palace_-_Ho_Chi_Minh_City.jpg/1280px-Independence_Palace_-_Ho_Chi_Minh_City.jpg');"></div>
+    <div class="relative max-w-5xl mx-auto text-center">
+      <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
+        Di tích Quốc gia Đặc biệt
+      </span>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-amber-400">
+        CÁC CÔNG TRÌNH TẠI DINH ĐỘC LẬP
+      </h1>
+      <p class="text-base md:text-lg text-slate-300 max-w-3xl mx-auto mb-6 font-light">
+        Khám phá không gian kiến trúc độc đáo, các phòng chức năng lịch sử và hiện vật giá trị bên trong Dinh Thống Nhất.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-12 space-y-12">
+
+    <!-- Danh sách các công trình trong Dinh -->
+    <section id="danh-sach">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-building-columns text-amber-500"></i> Danh Mục Công Trình Tiêu Biểu
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">Bấm chọn công trình để phát audio thuyết minh và tạo mã QR tương ứng</p>
+        </div>
+      </div>
+
+      <!-- Grid danh sách công trình -->
+      <div id="buildings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Render bằng JS -->
+      </div>
+    </section>
+
+    <!-- Trình phát Thuyết minh Voice -->
+    <section id="thuyet-minh" class="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-100 pb-6 mb-6">
+        <div>
+          <span id="active-code" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full border border-indigo-200 inline-block mb-2">
+            DDL-01
+          </span>
+          <h2 id="active-title" class="text-2xl font-bold text-slate-900">
+            Phòng Khánh Tiết
+          </h2>
+          <p id="active-location" class="text-slate-500 text-xs mt-1 flex items-center gap-1">
+            <i class="fa-solid fa-location-dot text-amber-500"></i> Tầng trệt - Dinh Độc Lập
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="playSpeech()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl transition flex items-center gap-2 shadow">
+            <i class="fa-solid fa-play"></i> Nghe Thuyết Minh
+          </button>
+          <button onclick="stopSpeech()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-2">
+            <i class="fa-solid fa-square"></i> Dừng
+          </button>
+        </div>
+      </div>
+      <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-slate-700 text-base leading-relaxed" id="speech-text">
+        Phòng Khánh Tiết là phòng lớn nhất tại Dinh Độc Lập với sức chứa lên đến 500 người. Đây là nơi diễn ra các lễ họp mặt, lễ ra mắt cabinet, các buổi dạ yến và lễ ký kết các văn kiện lịch sử dưới thời chính quyền cũ.
+      </div>
+    </section>
+
+    <!-- Khu vực Mã QR dành cho điện thoại quét -->
+    <section id="ma-qr" class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="space-y-4 max-w-xl">
+        <span class="bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Mã QR Công Trình</span>
+        <h2 class="text-3xl font-extrabold text-amber-300">Quét Mã Để Xem Trên Điện Thoại</h2>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Sử dụng Camera trên điện thoại di động để quét mã QR bên cạnh. Điện thoại của bạn sẽ nhận thông tin mã công trình để truy xuất dữ liệu thuyết minh tương ứng.
+        </p>
+        <div class="pt-2">
+          <label class="block text-xs text-amber-300 mb-1">Đường dẫn trang web đồ án (URL):</label>
+          <input type="text" id="target-url" class="w-full bg-slate-800 border border-slate-700 text-white text-xs p-2.5 rounded-lg focus:outline-none focus:border-amber-400" oninput="updateQR()" placeholder="Nhập đường dẫn web của bạn...">
+        </div>
+      </div>
+
+      <!-- Khung Mã QR Code -->
+      <div class="bg-white p-4 rounded-2xl shadow-xl text-slate-900 text-center flex flex-col items-center">
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+          <img id="qr-image" src="" alt="Mã QR" class="w-48 h-48 object-contain">
+        </div>
+        <p id="qr-label" class="text-xs font-bold text-slate-700 mt-3 uppercase tracking-wider">MÃ: DDL-01</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 text-center py-6 border-t border-slate-800 text-sm">
+    <p>© Đồ án Thuyết minh Tự động Đa ngôn ngữ - ĐH Sài Gòn</p>
+  </footer>
+
+  <script>
+    // Dữ liệu các công trình tiêu biểu bên trong Dinh Độc Lập
+    const buildingsData = [
+      {
+        code: "DDL-01",
+        name: "Phòng Khánh Tiết",
+        location: "Tầng trệt - Dinh Độc Lập",
+        description: "Phòng Khánh Tiết là không gian lớn nhất tại Dinh Độc Lập với sức chứa lên đến 500 người. Đây là nơi diễn ra các lễ ra mắt cabinet, hội nghị quốc tế, các buổi dạ yến và lễ ký kết văn kiện lịch sử."
+      },
+      {
+        code: "DDL-02",
+        name: "Phòng Trình Quốc Thư",
+        location: "Tầng 2 - Dinh Độc Lập",
+        description: "Phòng Trình Quốc Thư là nơi Tổng thống nhận quốc thư của đại sứ các nước. Bức tranh sơn mài 'Bình Ngô Đại Cáo' gồm 40 mảnh ghép trang trí trên tường mang đậm nét nghệ thuật truyền thống Việt Nam."
+      },
+      {
+        code: "DDL-03",
+        name: "Phòng Hợp Hội Đồng Bộ Trưởng",
+        location: "Tầng 2 - Dinh Độc Lập",
+        description: "Nơi diễn ra các phiên họp kín của Nội các chính quyền Sài Gòn. Phòng được trang bị hệ thống micro, tai nghe phiên dịch đa ngôn ngữ hiện đại bậc nhất thời bấy giờ."
+      },
+      {
+        code: "DDL-04",
+        name: "Sân Thượng & Bến Đáp Trực Thăng",
+        location: "Tầng sân thượng - Dinh Độc Lập",
+        description: "Nơi đỗ chiếc trực升機 UH-1. Nơi đây từng ghi dấu sự kiện phi công Nguyễn Thành Trung lái máy bay F5E ném bom vào ngày 8 tháng 4 năm 1975."
+      },
+      {
+        code: "DDL-05",
+        name: "Xe Tăng 390 & Cổng Chính",
+        location: "Khuôn viên bãi cỏ phía trước",
+        description: "Chiếc xe tăng 390 thuộc Đại đội 4, Tiểu đoàn 1, Lữ đoàn xe tăng 203 đã húc văng cổng phụ Dinh Độc Lập vào lúc 10 giờ 45 phút ngày 30/4/1975, đánh dấu thời khắc giải phóng miền Nam."
+      },
+      {
+        code: "DDL-06",
+        name: "Khu Hầm Tác Chiến Lịch Sử",
+        location: "Tầng hầm - Dinh Độc Lập",
+        description: "Hệ thống hầm kiên cố chịu được bom đạn hạng nặng. Là trung tâm chỉ huy quân sự tổng hợp chứa các đài đài vô tuyến, bản đồ tác chiến và phòng làm việc của Tổng thống khi có biến động."
+      }
+    ];
+
+    let currentBuilding = buildingsData[0];
+
+    // Render danh sách công trình
+    function renderBuildings() {
+      const grid = document.getElementById('buildings-grid');
+      grid.innerHTML = '';
+
+      buildingsData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = `bg-white rounded-2xl p-6 shadow-sm border transition cursor-pointer hover:shadow-lg hover:border-amber-400 flex flex-col justify-between ${currentBuilding.code === item.code ? 'border-2 border-amber-500 ring-2 ring-amber-100' : 'border-slate-100'}`;
+        card.onclick = () => selectBuilding(index);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full border border-indigo-200">
+                ${item.code}
+              </span>
+              <i class="fa-solid fa-circle-play text-amber-500 text-lg"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">${item.name}</h3>
+            <p class="text-xs text-slate-500 flex items-center gap-1.5 mb-3">
+              <i class="fa-solid fa-location-dot text-indigo-500"></i> ${item.location}
+            </p>
+            <p class="text-slate-600 text-sm line-clamp-3 leading-relaxed">${item.description}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-right">
+            <span class="text-xs font-bold text-indigo-600 hover:text-indigo-800">Chọn nghe & lấy QR →</span>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Chọn công trình
+    function selectBuilding(index) {
+      currentBuilding = buildingsData[index];
+      document.getElementById('active-code').innerText = currentBuilding.code;
+      document.getElementById('active-title').innerText = currentBuilding.name;
+      document.getElementById('active-location').innerHTML = `<i class="fa-solid fa-location-dot text-amber-500"></i> ${currentBuilding.location}`;
+      document.getElementById('speech-text').innerText = currentBuilding.description;
+      document.getElementById('qr-label').innerText = `MÃ: ${currentBuilding.code}`;
+
+      renderBuildings();
+      updateQR();
+      playSpeech();
+    }
+
+    // Cập nhật QR Code
+    function updateQR() {
+      const baseUrl = document.getElementById('target-url').value || window.location.href;
+      const qrData = `${baseUrl}?code=${currentBuilding.code}`;
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
+      document.getElementById('qr-image').src = qrApiUrl;
+    }
+
+    // Đọc voice
+    function playSpeech() {
+      stopSpeech();
+      const text = document.getElementById('speech-text').innerText;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'vi-VN';
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeech() {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('target-url').value = window.location.href;
+      renderBuildings();
+      updateQR();
+    });
+  </script>
+</body>
+</html>

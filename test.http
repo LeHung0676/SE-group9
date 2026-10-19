@@ -4,14 +4,14 @@ GET http://localhost:5000/
 ### 2. Thêm mới một hiện vật (Sẽ tự động sinh mã QR)
 POST http://localhost:5000/api/artifacts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDU5ZmEwMDQwYjk2MGFjMDRhZDcwMiIsInVzZXJuYW1lIjoiYWRtaW5TR1UiLCJpYXQiOjE3OTIzODQ5MzEsImV4cCI6MTc5MjQ3MTMzMX0.LJqStwt97RDyq-sVzUbFU5r-_f3uwA6rWydJ8jz-dqw
 
 {
-  "name": "Khuôn viên nhà hiệu bộ Đại học Sài Gòn",
-  "code": "SGU-HN01",
-  "description": "Tòa nhà trung tâm hành chính và làm việc của trường.",
-  "location": "Cơ sở chính - An Dương Vương"
+  "name": "Dinh Độc Lập",
+  "code": "DDL-HCM01",
+  "description": "Di tích quốc gia đặc biệt, nơi ghi dấu sự kiện lịch sử giải phóng miền Nam năm 1975.",
+  "location": "135 Nam Kỳ Khởi Nghĩa, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh"
 }
-
 ### 3. Lấy danh sách tất cả hiện vật (Xem dữ liệu và mã QR trả về dạng ảnh Base64)
 GET http://localhost:5000/api/artifacts
 
@@ -38,7 +38,7 @@ Content-Type: application/json
 # và dán thay thế vào chỗ chữ YOUR_TOKEN_HERE bên dưới nhé)
 POST http://localhost:5000/api/artifacts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDU5YjNlYTM3NzY5ZWY5OWQ0YTc3ZCIsInVzZXJuYW1lIjoiYWRtaW5TR1UiLCJpYXQiOjE3OTIzODM5MjMsImV4cCI6MTc5MjQ3MDMyM30.gruMPBEoZcMrC9EAkbb7_Qoi0M3-3Ud1y9SASIs-hBA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDU5ZmEwMDQwYjk2MGFjMDRhZDcwMiIsInVzZXJuYW1lIjoiYWRtaW5TR1UiLCJpYXQiOjE3OTIzODQ5MzEsImV4cCI6MTc5MjQ3MTMzMX0.LJqStwt97RDyq-sVzUbFU5r-_f3uwA6rWydJ8jz-dqw
 
 {
   "name": "Phòng Truyền thống Đại học Sài Gòn",
