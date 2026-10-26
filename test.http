@@ -1,0 +1,48 @@
+### 1. Kiểm tra xem Server đã chạy chưa
+GET http://localhost:5000/
+
+### 2. Thêm mới một hiện vật (Sẽ tự động sinh mã QR)
+POST http://localhost:5000/api/artifacts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDU5ZmEwMDQwYjk2MGFjMDRhZDcwMiIsInVzZXJuYW1lIjoiYWRtaW5TR1UiLCJpYXQiOjE3OTIzODQ5MzEsImV4cCI6MTc5MjQ3MTMzMX0.LJqStwt97RDyq-sVzUbFU5r-_f3uwA6rWydJ8jz-dqw
+
+{
+  "name": "Dinh Độc Lập",
+  "code": "DDL-HCM01",
+  "description": "Di tích quốc gia đặc biệt, nơi ghi dấu sự kiện lịch sử giải phóng miền Nam năm 1975.",
+  "location": "135 Nam Kỳ Khởi Nghĩa, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh"
+}
+### 3. Lấy danh sách tất cả hiện vật (Xem dữ liệu và mã QR trả về dạng ảnh Base64)
+GET http://localhost:5000/api/artifacts
+
+### 4. Đăng ký tài khoản Admin mẫu (Chỉ chạy 1 lần để tạo tài khoản)
+POST http://localhost:5000/api/admin/register
+Content-Type: application/json
+
+{
+  "username": "adminSGU",
+  "password": "123456"
+}
+
+### 5. Đăng nhập Admin (Để lấy mã Token xác thực)
+POST http://localhost:5000/api/admin/login
+Content-Type: application/json
+
+{
+  "username": "adminSGU",
+  "password": "123456"
+}
+
+### 6. Thêm hiện vật được bảo vệ bởi Token (Chỉ Admin mới làm được)
+# (Lưu ý: Sau khi đăng nhập ở bước 5, hãy copy đoạn mã "token" trả về 
+# và dán thay thế vào chỗ chữ YOUR_TOKEN_HERE bên dưới nhé)
+POST http://localhost:5000/api/artifacts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDU5ZmEwMDQwYjk2MGFjMDRhZDcwMiIsInVzZXJuYW1lIjoiYWRtaW5TR1UiLCJpYXQiOjE3OTIzODQ5MzEsImV4cCI6MTc5MjQ3MTMzMX0.LJqStwt97RDyq-sVzUbFU5r-_f3uwA6rWydJ8jz-dqw
+
+{
+  "name": "Phòng Truyền thống Đại học Sài Gòn",
+  "code": "SGU-PTT02",
+  "description": "Nơi lưu giữ các hiện vật lịch sử quan trọng của nhà trường.",
+  "location": "Tòa nhà A - Cơ sở chính"
+}

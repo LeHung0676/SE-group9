@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinh Độc Lập - Danh Mục Công Trình & Mã QR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen">
+
+  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <i class="fa-solid fa-landmark text-2xl text-amber-400"></i>
+        <span class="text-xl font-bold text-amber-400 uppercase">Dinh Độc Lập</span>
+      </div>
+      <span class="text-xs text-slate-400">Hệ thống Thuyết minh Tự động - ĐH Sài Gòn</span>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-10 space-y-8">
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-qrcode text-amber-500"></i> Cấu hình URL trang chi tiết:
+      </h2>
+      <p class="text-xs text-slate-500 mb-2">Đường dẫn gốc đến file detail.html (để mã QR dẫn điện thoại truy cập vào đúng trang):</p>
+      <input type="text" id="base-detail-url" class="w-full bg-slate-50 border border-slate-300 text-xs p-2.5 rounded-lg focus:outline-none focus:border-amber-500 font-mono" placeholder="http://192.168.1.x:5500/detail.html">
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <i class="fa-solid fa-building-columns text-amber-500"></i> Danh Mục Công Trình Bên Trong Dinh
+      </h2>
+      <div id="buildings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </main>
+
+  <!-- MODAL BẬT MÃ QR & PHÁT VOICE -->
+  <div id="qr-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100 animate-fade-in">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-xl w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-center">
+        <span id="modal-code" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full border border-indigo-200">DDL-01</span>
+        <h3 id="modal-title" class="text-2xl font-extrabold text-slate-900 mt-2">Phòng Khánh Tiết</h3>
+        <p id="modal-location" class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot text-amber-500"></i> Tầng trệt - Dinh Độc Lập</p>
+        
+        <!-- Mã QR được sinh ra ở đây -->
+        <div class="my-6 bg-slate-50 p-4 rounded-2xl border border-slate-200 inline-block">
+          <img id="modal-qr-img" src="" alt="Mã QR" class="w-52 h-52 object-contain mx-auto">
+        </div>
+
+        <p class="text-xs text-slate-500 mb-4">Quét mã QR bằng điện thoại để mở trang thuyết minh & audio riêng của công trình này.</p>
+        
+        <div class="flex justify-center gap-3">
+          <button onclick="playSpeechCurrent()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 shadow">
+            <i class="fa-solid fa-volume-high"></i> Nghe thử Voice
+          </button>
+          <a id="modal-direct-link" href="#" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở trang chi tiết
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const buildingsData = [
+      { code: "DDL-01", name: "Phòng Khánh Tiết", location: "Tầng trệt - Dinh Độc Lập", description: "Phòng Khánh Tiết là không gian lớn nhất tại Dinh Độc Lập với sức chứa lên đến 500 người. Đây là nơi diễn ra các lễ ra mắt cabinet, hội nghị quốc tế và các buổi dạ yến lịch sử." },
+      { code: "DDL-02", name: "Phòng Trình Quốc Thư", location: "Tầng 2 - Dinh Độc Lập", description: "Phòng Trình Quốc Thư là nơi Tổng thống nhận quốc thư của đại sứ các nước. Bức tranh sơn mài 'Bình Ngô Đại Cáo' trang trí trên tường mang đậm nét nghệ thuật truyền thống." },
+      { code: "DDL-03", name: "Phòng Hợp Hội Đồng Bộ Trưởng", location: "Tầng 2 - Dinh Độc Lập", description: "Nơi diễn ra các phiên họp kín của Nội các chính quyền Sài Gòn cũ với hệ thống tai nghe phiên dịch đa ngôn ngữ hiện đại thời bấy giờ." },
+      { code: "DDL-04", name: "Bến Đáp Trực Thăng & F5E", location: "Tầng sân thượng - Dinh Độc Lập", description: "Nơi đỗ chiếc trực升機 UH-1. Ghi dấu sự kiện phi công Nguyễn Thành Trung lái máy bay F5E ném bom vào sáng ngày 8 tháng 4 năm 1975." },
+      { code: "DDL-05", name: "Xe Tăng 390 & Cổng Chính", location: "Khuôn viên bãi cỏ phía trước", description: "Chiếc xe tăng 390 huyền thoại đã húc văng cổng phụ Dinh Độc Lập vào lúc 10 giờ 45 phút ngày 30/4/1975, đánh dấu thời khắc hoàn toàn giải phóng miền Nam." },
+      { code: "DDL-06", name: "Khu Hầm Tác Chiến Lịch Sử", location: "Tầng hầm - Dinh Độc Lập", description: "Hệ thống hầm kiên cố chịu được bom đạn hạng nặng, chứa đài vô tuyến, bản đồ tác chiến và phòng làm việc của Tổng thống." }
+    ];
+
+    let selectedIndex = 0;
+
+    function renderBuildings() {
+      const grid = document.getElementById('buildings-grid');
+      grid.innerHTML = '';
+
+      buildingsData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full border border-indigo-200">${item.code}</span>
+              <i class="fa-solid fa-circle-play text-amber-500 text-lg"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-1">${item.name}</h3>
+            <p class="text-xs text-slate-500 flex items-center gap-1 mb-3"><i class="fa-solid fa-location-dot text-amber-500"></i> ${item.location}</p>
+            <p class="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-4">${item.description}</p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 text-right">
+            <button onclick="openQRModal(${index})" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">
+              Chọn nghe & lấy QR →
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openQRModal(index) {
+      selectedIndex = index;
+      const item = buildingsData[index];
+      
+      let baseUrl = document.getElementById('base-detail-url').value;
+      if (!baseUrl) {
+        baseUrl = window.location.href.replace('index.html', 'detail.html');
+        if(!baseUrl.includes('detail.html')) baseUrl += 'detail.html';
+      }
+
+      const targetLink = `${baseUrl}?code=${item.code}`;
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(targetLink)}`;
+
+      document.getElementById('modal-code').innerText = item.code;
+      document.getElementById('modal-title').innerText = item.name;
+      document.getElementById('modal-location').innerHTML = `<i class="fa-solid fa-location-dot text-amber-500"></i> ${item.location}`;
+      document.getElementById('modal-qr-img').src = qrApiUrl;
+      document.getElementById('modal-direct-link').href = targetLink;
+
+      document.getElementById('qr-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('qr-modal').classList.add('hidden');
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+    }
+
+    function playSpeechCurrent() {
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      const text = buildingsData[selectedIndex].description;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'vi-VN';
+      window.speechSynthesis.speak(utterance);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const defaultDetailUrl = window.location.href.replace('index.html', 'detail.html');
+      document.getElementById('base-detail-url').value = defaultDetailUrl.split('?')[0];
+      renderBuildings();
+    });
+  </script>
+</body>
+</html>
